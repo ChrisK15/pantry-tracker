@@ -85,12 +85,16 @@ export default function Home() {
   return (
     <Box
       width='100vw'
-      height='100vw'
+      height='100vh'
       display='flex'
       flexDirection='column'
       justifyContent='center'
       alignItems='center'
       gap={2}
+      padding={2}
+      boxSizing='border-box'
+      overflow='auto'
+      bgcolor='#121e26'
     >
       <Modal open={open} onClose={handleClose}>
         <Box
@@ -113,6 +117,7 @@ export default function Home() {
               variant='outlined'
               fullWidth
               value={itemName}
+              bgcolor='#264052'
               onChange={(e) => {
                 setItemName(e.target.value);
               }}
@@ -145,6 +150,14 @@ export default function Home() {
           fullWidth
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          //colors
+          sx={{
+            "&. MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "red", //<-HERE
+              },
+            },
+          }}
         />
       </Box>
       <Box border='1px solid #333'>
