@@ -25,6 +25,7 @@ export default function Home() {
   const [inventory, setInventory] = useState([]);
   const [open, setOpen] = useState(false);
   const [itemName, setItemName] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   //async - doesnt block our code while fetching
   const updateInventory = async () => {
@@ -70,10 +71,14 @@ export default function Home() {
     await updateInventory();
   };
 
+  const filteredInventory = inventory.filter(({ name }) =>
+    name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   useEffect(() => {
     updateInventory();
   }, []);
-
+  //add new item open
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -125,14 +130,23 @@ export default function Home() {
           </Stack>
         </Box>
       </Modal>
-      <Button
-        variant='contained'
-        onClick={() => {
-          handleOpen();
-        }}
-      >
-        Add New Item
-      </Button>
+      <Box display='flex' flexDirection='row' gap={3}>
+        <Button
+          variant='contained'
+          onClick={() => {
+            handleOpen();
+          }}
+        >
+          Add New Item
+        </Button>
+        <TextField
+          variant='outlined'
+          label='Search List'
+          fullWidth
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
+      </Box>
       <Box border='1px solid #333'>
         <Box
           width='800px'
@@ -147,7 +161,7 @@ export default function Home() {
           </Typography>
         </Box>
         <Stack width='800px' heigh='300px' spacing={2} overflow='auto'>
-          {inventory.map(({ name, quantity }) => (
+          {filteredInventory.map(({ name, quantity }) => (
             <Box
               key={name}
               width='100%'
