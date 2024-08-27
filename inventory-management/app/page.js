@@ -1,7 +1,7 @@
-"use client";
-import Image from "next/image";
-import { useState, useEffect } from "react";
-import { firestore } from "@/firebase";
+'use client';
+import Image from 'next/image';
+import { useState, useEffect } from 'react';
+import { firestore } from '@/firebase';
 import {
   Box,
   Modal,
@@ -9,7 +9,7 @@ import {
   Stack,
   TextField,
   Button,
-} from "@mui/material";
+} from '@mui/material';
 import {
   collection,
   deleteDoc,
@@ -18,18 +18,18 @@ import {
   doc,
   setDoc,
   getDoc,
-} from "firebase/firestore";
+} from 'firebase/firestore';
 
 export default function Home() {
   //state variables
   const [inventory, setInventory] = useState([]);
   const [open, setOpen] = useState(false);
-  const [itemName, setItemName] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
+  const [itemName, setItemName] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
   //async - doesnt block our code while fetching
   const updateInventory = async () => {
-    const snapshot = query(collection(firestore, "inventory"));
+    const snapshot = query(collection(firestore, 'inventory'));
     const docs = await getDocs(snapshot);
     const inventoryList = [];
     docs.forEach((doc) => {
@@ -42,7 +42,7 @@ export default function Home() {
   };
 
   const addItem = async (item) => {
-    const docRef = doc(collection(firestore, "inventory"), item);
+    const docRef = doc(collection(firestore, 'inventory'), item);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -56,7 +56,7 @@ export default function Home() {
   };
 
   const removeItem = async (item) => {
-    const docRef = doc(collection(firestore, "inventory"), item);
+    const docRef = doc(collection(firestore, 'inventory'), item);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -94,7 +94,7 @@ export default function Home() {
       padding={2}
       boxSizing='border-box'
       overflow='auto'
-      bgcolor='#121e26'
+      bgcolor='white'
     >
       <Modal open={open} onClose={handleClose}>
         <Box
@@ -109,7 +109,7 @@ export default function Home() {
           display='flex'
           flexDirection='column'
           gap={3}
-          sx={{ transform: "translate(-50%, -50%)" }}
+          sx={{ transform: 'translate(-50%, -50%)' }}
         >
           <Typography variant='h6'>Add Item</Typography>
           <Stack width='100%' direction='row' spacing={2}>
@@ -126,7 +126,7 @@ export default function Home() {
               variant='outlined'
               onClick={() => {
                 addItem(itemName);
-                setItemName("");
+                setItemName('');
                 handleClose();
               }}
             >
@@ -152,15 +152,15 @@ export default function Home() {
           onChange={(e) => setSearchQuery(e.target.value)}
           //colors
           sx={{
-            "&. MuiOutlinedInput-root": {
-              "& fieldset": {
-                borderColor: "red", //<-HERE
+            '&. MuiOutlinedInput-root': {
+              '& fieldset': {
+                borderColor: 'red', //<-HERE
               },
             },
           }}
         />
       </Box>
-      <Box border='1px solid #333'>
+      <Box border='1px solid #333' sx={{ borderRadius: 5 }}>
         <Box
           width='800px'
           heigh='100px'
@@ -168,12 +168,19 @@ export default function Home() {
           display='flex'
           alignItems='center'
           justifyContent='center'
+          sx={{ borderTopLeftRadius: 20, borderTopRightRadius: 20 }}
         >
           <Typography variant='h2' color='#333'>
             Inventory Items
           </Typography>
         </Box>
-        <Stack width='800px' heigh='300px' spacing={2} overflow='auto'>
+        <Stack
+          width='800px'
+          heigh='300px'
+          spacing={2}
+          overflow='auto'
+          sx={{ borderBottomLeftRadius: 20, borderBottomRightRadius: 20 }}
+        >
           {filteredInventory.map(({ name, quantity }) => (
             <Box
               key={name}
