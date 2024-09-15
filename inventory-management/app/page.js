@@ -1,5 +1,4 @@
 'use client';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { firestore } from '@/firebase';
 import {
@@ -94,7 +93,7 @@ export default function Home() {
       padding={2}
       boxSizing='border-box'
       overflow='auto'
-      bgcolor='white'
+      bgcolor='#f2fdff'
     >
       <Modal open={open} onClose={handleClose}>
         <Box
